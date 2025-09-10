@@ -1,91 +1,44 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sanal Havayolu - Admin Giriş</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: linear-gradient(135deg, #004080, #00aaff);
-      color: white;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: rgba(0,0,0,0.3);
-      padding: 20px;
-    }
-    main {
-      margin: 50px auto;
-      width: 90%;
-      max-width: 400px;
-      background: rgba(255,255,255,0.1);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
-    input {
-      width: 80%;
-      padding: 10px;
-      margin: 10px 0;
-      border: none;
-      border-radius: 8px;
-    }
-    button {
-      background: #004080;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-    button:hover {
-      background: #0066cc;
-    }
-    h2 {
-      margin-bottom: 20px;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baykuş - Giriş</title>
+  <script src="https://unpkg.com/@supabase/supabase-js"></script>
 </head>
 <body>
-  <header>
-    <h1>✈️ Sanal Havayolu Platformu</h1>
-  </header>
-  <main>
-    <h2>Admin Girişi</h2>
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Şifre">
-    <br>
-    <button onclick="login()">Giriş Yap</button>
-  </main>
+  <h2>Giriş Yap</h2>
+  <input type="email" id="email" placeholder="E-posta" />
+  <input type="password" id="password" placeholder="Şifre" />
+  <button onclick="login()">Giriş</button>
 
-  <!-- Supabase JS ve login fonksiyonu -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script>
-    // Buraya kendi Supabase projenin bilgilerini ekle
-    const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co'; // <--- burayı değiştir
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0'; // <--- burayı değiştir
+    const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co'; 
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0'; 
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
     async function login() {
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-     if (error) {
-        alert('Giriş hatası: ' + error.message);
+      if (error) {
+        alert("Giriş başarısız: " + error.message);
+        return;
+      }
+
+      // Admin kontrolü
+      if (email === "baykussim34@gmail.com") {
+        window.location.href = "admin.html";
       } else {
-        // Sadece fatihapak17@gmail.com admin paneline yönlendirilecek
-        if (email === "baykussim31@gmail.com") {
-          window.location.href = "admin.html";
-        } else {
-          alert("Sadece admin giriş yapabilir!");
+        alert("Sadece admin giriş yapabilir!");
+      }
     }
   </script>
 </body>
 </html>
+
