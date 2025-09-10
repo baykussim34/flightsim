@@ -16,7 +16,6 @@
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Sayfa açıldığında oturum kontrolü
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session || data.session.user.email !== "baykussim34@gmail.com") {
         alert("Admin yetkiniz yok veya giriş yapılmamış!");
@@ -24,7 +23,6 @@
       }
     });
 
-    // Çıkış butonu
     document.getElementById("logout-btn").addEventListener("click", async () => {
       await supabase.auth.signOut();
       window.location.href = "index.html";
