@@ -4,28 +4,48 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Baykuş - Admin Paneli</title>
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
   <h2>Admin Paneli</h2>
   <p>Hoş geldin Admin!</p>
 
+  <!-- Giriş Formu -->
+  <div id="login-container">
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Şifre" />
+    <button id="login-btn">Giriş Yap</button>
+  </div>
+
   <script>
-    const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co'; 
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0'; 
+    const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Giriş kontrolü
-    supabase.auth.getUser().then(({ data, error }) => {
-      if (error || !data.user) {
-        window.location.href = "index.html";
+    const loginBtn = document.getElementById("login-btn");
+
+    loginBtn.addEventListener("click", async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+      if (error) {
+        alert("Giriş başarısız: " + error.message);
       } else {
         if (data.user.email !== "baykussim34@gmail.com") {
           alert("Admin yetkiniz yok!");
           window.location.href = "index.html";
+        } else {
+          alert("Giriş başarılı! Hoşgeldiniz.");
+          document.getElementById("login-container").style.display = "none";
         }
       }
     });
   </script>
 </body>
 </html>
+
