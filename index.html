@@ -77,8 +77,14 @@
 
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
-      if (error) alert('Giriş hatası: ' + error.message);
-      else alert('Admin giriş başarılı!');
+     if (error) {
+        alert('Giriş hatası: ' + error.message);
+      } else {
+        // Sadece fatihapak17@gmail.com admin paneline yönlendirilecek
+        if (email === "baykussim31@gmail.com") {
+          window.location.href = "admin.html";
+        } else {
+          alert("Sadece admin giriş yapabilir!");
     }
   </script>
 </body>
