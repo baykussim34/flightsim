@@ -4,41 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Baykuş - Giriş</title>
-  <script src="https://unpkg.com/@supabase/supabase-js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
 </head>
 <body>
   <h2>Giriş Yap</h2>
   <input type="email" id="email" placeholder="E-posta" />
   <input type="password" id="password" placeholder="Şifre" />
-  <button onclick="login()">Giriş</button>
+  <button id="login-btn">Giriş</button>
 
   <script>
     const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co'; 
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0'; 
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    async function login() {
+    document.getElementById("login-btn").addEventListener("click", async () => {
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
       if (error) {
         alert("Giriş başarısız: " + error.message);
         return;
       }
 
-      // Admin kontrolü
-      if (email === "baykussim34@gmail.com") {
-        window.location.href = "admin.html";
-      } else {
+      if (email !== "baykussim34@gmail.com") {
         alert("Sadece admin giriş yapabilir!");
+        return;
       }
-    }
+
+      // Başarılı giriş → admin paneline yönlendir
+      window.location.href = "admin.html";
+    });
   </script>
 </body>
 </html>
+
 
