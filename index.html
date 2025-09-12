@@ -11,16 +11,12 @@
   <input type="email" id="email" placeholder="E-posta" />
   <input type="password" id="password" placeholder="Şifre" />
   <button id="login-btn">Giriş</button>
-<script type="module">
-  const response = await fetch('/api/login');
-</script>
 
- <script>
+<script>
+  // Supabase client tanımı
   const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0';
-  
- 
-   
+  const client = supabase.createClient(supabaseUrl, supabaseKey);
 
   document.getElementById("login-btn").addEventListener("click", async () => {
     const email = document.getElementById("email").value;
@@ -33,11 +29,13 @@
       return;
     }
 
+    // Admin kontrolü
     if (email !== "baykussim34@gmail.com") {
       alert("Sadece admin giriş yapabilir!");
       return;
     }
 
+    // Başarılı giriş → admin sayfasına yönlendir
     window.location.href = "admin.html";
   });
 </script>
