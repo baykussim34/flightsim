@@ -11,28 +11,27 @@
   <p id="welcome-msg">Yükleniyor...</p>
   <button id="logout-btn">Çıkış Yap</button>
 
-  <script>
-    const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0';
-    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+<script>
+const supabaseUrl = 'https://klopvcoxyopcqrjniuwz.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtsb3B2Y294eW9wY3Fyam5pdXd6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3MDMwNjcsImV4cCI6MjA3MzI3OTA2N30.d9zUBKbUG3kMIkPonUPPEU3KmEQJDWV4f49D1HB_L6s'; // kendi Supabase key’in
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    (async () => {
-      const { data } = await supabase.auth.getSession();
+(async () => {
+  const { data } = await supabase.auth.getSession();
 
-      if (!data.session || data.session.user.email !== "baykussim34@gmail.com") {
-        alert("Admin yetkiniz yok veya giriş yapılmamış!");
-        window.location.href = "index.html";
-        return;
-      }
+  if (!data.session || data.session.user.email !== "baykussim34@gmail.com") {
+    alert("Admin yetkiniz yok veya giriş yapılmamış!");
+    window.location.href = "index.html";
+    return;
+  }
 
-      // Hoş geldin mesajını güncelle
-      document.getElementById("welcome-msg").textContent = `Hoş geldin, ${data.session.user.email}!`;
-    })();
+  document.getElementById("welcome-msg").textContent = `Hoş geldin, ${data.session.user.email}!`;
+})();
 
-    document.getElementById("logout-btn").addEventListener("click", async () => {
-      await supabase.auth.signOut();
-      window.location.href = "index.html";
-    });
-  </script>
+document.getElementById("logout-btn").addEventListener("click", async () => {
+  await supabase.auth.signOut();
+  window.location.href = "index.html";
+});
+</script>
 </body>
 </html>
