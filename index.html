@@ -3,42 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Baykuş - Giriş</title>
+  <title>Baykuş - Admin Giriş</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 50px; }
+    input { display: block; margin: 10px 0; padding: 8px; width: 250px; }
+    button { padding: 10px 20px; cursor: pointer; }
+    .error { color: red; margin-top: 10px; }
+  </style>
 </head>
 <body>
-  <h2>Giriş Yap</h2>
+  <h2>Admin Giriş</h2>
   <input type="email" id="email" placeholder="E-posta" />
   <input type="password" id="password" placeholder="Şifre" />
   <button id="login-btn">Giriş</button>
+  <div class="error" id="error-msg"></div>
 
 <script>
-  // Supabase client tanımı
+  // 1️⃣ Supabase client tanımı
   const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0';
   const client = supabase.createClient(supabaseUrl, supabaseKey);
 
-  document.getElementById("login-btn").addEventListener("click", async () => {
-    const email = document.getElementById("email").value;
+  const loginBtn = document.getElementById("login-btn");
+  const errorMsg = document.getElementById("error-msg");
+
+  loginBtn.addEventListener("click", async () => {
+    errorMsg.textContent = ""; // Önceki hatayı temizle
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
-    const { data, error } = await client.auth.signInWithPassword({ email, password });
-
-    if (error) {
-      alert("Giriş başarısız: " + error.message);
+    if (!email || !password) {
+      errorMsg.textContent = "E-posta ve şifre boş olamaz.";
       return;
     }
 
-    // Admin kontrolü
-    if (email !== "baykussim34@gmail.com") {
-      alert("Sadece admin giriş yapabilir!");
-      return;
-    }
+    try {
+      // 2️⃣ Supabase ile login
+      const { data, error } = await client.auth.signInWithPassword({ email, password });
 
-    // Başarılı giriş → admin sayfasına yönlendir
-    window.location.href = "admin.html";
+      if (error) {
+        errorMsg.textContent = "Giriş başarısız: " + error.message;
+        return;
+      }
+
+      // 3️⃣ Admin kontrolü
+      const adminEmail = "baykussim34@gmail.com";
+      if (email !== adminEmail) {
+        errorMsg.textContent = "Sadece admin giriş yapabilir!";
+        return;
+      }
+
+      // 4️⃣ Başarılı giriş → admin sayfasına yönlendir
+      window.location.href = "admin.html";
+
+    } catch (err) {
+      errorMsg.textContent = "Beklenmedik hata: " + err.message;
+    }
   });
 </script>
-
 </body>
 </html>
