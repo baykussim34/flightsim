@@ -15,7 +15,9 @@
  <script>
   const supabaseUrl = 'https://hzieazwupisqrhnwfngj.supabase.co';
   const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0';
-  const client = supabase.createClient(supabaseUrl, supabaseKey);
+  const { data, error } = await client.auth.signInWithPassword({ email, password });
+ 
+   
 
   document.getElementById("login-btn").addEventListener("click", async () => {
     const email = document.getElementById("email").value;
