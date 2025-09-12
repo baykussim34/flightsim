@@ -8,7 +8,7 @@
 </head>
 <body>
   <h2>Admin Paneli</h2>
-  <p>Hoş geldin Admin!</p>
+  <p id="welcome-msg">Yükleniyor...</p>
   <button id="logout-btn">Çıkış Yap</button>
 
   <script>
@@ -16,12 +16,18 @@
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh6aWVhend1cGlzcXJobndmbmdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc1MjYzNDMsImV4cCI6MjA3MzEwMjM0M30.uawMwrooTWBszR5CnFK8ZEhv6VcV4712km65y0_11l0';
     const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    supabase.auth.getSession().then(({ data }) => {
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+
       if (!data.session || data.session.user.email !== "baykussim34@gmail.com") {
         alert("Admin yetkiniz yok veya giriş yapılmamış!");
         window.location.href = "index.html";
+        return;
       }
-    });
+
+      // Hoş geldin mesajını güncelle
+      document.getElementById("welcome-msg").textContent = `Hoş geldin, ${data.session.user.email}!`;
+    })();
 
     document.getElementById("logout-btn").addEventListener("click", async () => {
       await supabase.auth.signOut();
